@@ -290,14 +290,14 @@ h3 {
     padding: 7rem var(--space-3) var(--space-3);
     clip-path: circle(0 at calc(100% - 2.75rem) 2.25rem);
     visibility: hidden;
-    transition: clip-path 0.35s ease-in, visibility 0.35s ease-in;
+    transition: clip-path 0.4s ease-in, visibility 0.4s ease-in;
   }
 
   .site-nav.open {
     clip-path: circle(150% at calc(100% - 2.75rem) 2.25rem);
     visibility: visible;
-    transition: clip-path 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-      visibility 0.5s;
+    transition: clip-path 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+      visibility 0.7s;
   }
 
   .site-nav ul {
@@ -316,11 +316,11 @@ h3 {
     transform: none;
   }
 
-  .site-nav.open li:nth-child(1) { transition-delay: 0.2s; }
-  .site-nav.open li:nth-child(2) { transition-delay: 0.26s; }
-  .site-nav.open li:nth-child(3) { transition-delay: 0.32s; }
-  .site-nav.open li:nth-child(4) { transition-delay: 0.38s; }
-  .site-nav.open li:nth-child(5) { transition-delay: 0.44s; }
+  .site-nav.open li:nth-child(1) { transition-delay: 0.3s; }
+  .site-nav.open li:nth-child(2) { transition-delay: 0.37s; }
+  .site-nav.open li:nth-child(3) { transition-delay: 0.44s; }
+  .site-nav.open li:nth-child(4) { transition-delay: 0.51s; }
+  .site-nav.open li:nth-child(5) { transition-delay: 0.58s; }
 
   .site-nav a {
     font-size: 1.75rem;
@@ -722,24 +722,13 @@ body.has-custom-cursor button {
   margin-bottom: var(--space-3);
 }
 
-.industry-intro .eyebrow {
-  color: var(--color-cream);
-  opacity: 0.75;
-}
-
-.industry-intro .lede {
-  opacity: 0.9;
-}
-
 /* Intro entrance: same orchestration as the home hero */
-.industry-intro .eyebrow,
 .industry-intro h1,
 .industry-intro .lede {
   animation: rise-in 0.7s ease-out both;
 }
 
-.industry-intro h1 { animation-delay: 0.12s; }
-.industry-intro .lede { animation-delay: 0.28s; }
+.industry-intro .lede { animation-delay: 0.16s; }
 
 .industry-bg {
   position: absolute;
@@ -822,19 +811,24 @@ body.has-custom-cursor button {
     display: none;
   }
 
-  /* The live oak backs the intro on touch screens; deep at the
-     top behind the title, opening downward so the tree reads */
-  .industry-index {
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(48, 82, 52, 0.95) 0%,
-        rgba(48, 82, 52, 0.6) 45%,
-        rgba(48, 82, 52, 0.45) 100%
-      ),
-      url('assets/liveoak.jpg');
-    background-size: cover;
-    background-position: center;
+  /* Direction B: intro is type on solid green, then the live oak
+     appears as a full-width band in its natural orientation */
+  .industry-intro {
+    min-height: 0;
+    display: block;
+    padding: 7rem 0 var(--space-3);
+  }
+
+  .industry-intro::after {
+    content: '';
+    display: block;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: var(--space-3);
+    height: 40vh;
+    background:
+      linear-gradient(rgba(48, 82, 52, 0.18), rgba(48, 82, 52, 0.18)),
+      url('assets/liveoak.jpg') center / cover no-repeat;
   }
 
   .industry-row {
