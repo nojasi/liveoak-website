@@ -346,7 +346,7 @@ h3 {
 /* ---------- Hero ---------- */
 
 .hero {
-  background: var(--color-dark-green);
+  background: var(--color-dark-green) url('assets/contours.svg') center / cover no-repeat;
   color: var(--color-cream);
   padding: 9rem 0 var(--space-5);
 }
@@ -379,6 +379,34 @@ h3 {
   gap: var(--space-2);
 }
 
+/* Split hero: copy left, inset oak photo right on desktop */
+.hero-grid {
+  display: grid;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.hero-photo {
+  display: none;
+  margin: 0;
+}
+
+@media (min-width: 60rem) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .hero-photo {
+    display: block;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+}
+
 /* Hero entrance: each element rises in sequence on load */
 @keyframes rise-in {
   from {
@@ -401,6 +429,11 @@ h3 {
 .hero h1 { animation-delay: 0.12s; }
 .hero .lede { animation-delay: 0.28s; }
 .hero-actions { animation-delay: 0.44s; }
+
+.hero-photo {
+  animation: rise-in 0.7s ease-out both;
+  animation-delay: 0.2s;
+}
 
 /* ---------- Positioning / signature ---------- */
 
@@ -558,7 +591,7 @@ h3 {
 .cta-band {
   position: relative;
   z-index: 1;
-  background: var(--color-dark-green);
+  background: var(--color-dark-green) url('assets/contours.svg') center / cover no-repeat;
   color: var(--color-cream);
   text-align: center;
 }
@@ -811,24 +844,12 @@ body.has-custom-cursor button {
     display: none;
   }
 
-  /* Direction B: intro is type on solid green, then the live oak
-     appears as a full-width band in its natural orientation */
+  /* Type-only intro on touch screens; first photo arrives
+     with the first sector card */
   .industry-intro {
     min-height: 0;
     display: block;
     padding: 7rem 0 var(--space-3);
-  }
-
-  .industry-intro::after {
-    content: '';
-    display: block;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-top: var(--space-3);
-    height: 40vh;
-    background:
-      linear-gradient(rgba(48, 82, 52, 0.18), rgba(48, 82, 52, 0.18)),
-      url('assets/liveoak.jpg') center / cover no-repeat;
   }
 
   .industry-row {
