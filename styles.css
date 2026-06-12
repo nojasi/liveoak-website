@@ -579,12 +579,12 @@ body.has-custom-cursor button {
 /* ---------- Compact hero (interior pages) ---------- */
 
 .hero-compact {
-  padding: 8rem 0 var(--space-4);
+  padding: 8rem 0 var(--space-3);
 }
 
 @media (min-width: 48rem) {
   .hero-compact {
-    padding: 10rem 0 var(--space-4);
+    padding: 10rem 0 var(--space-3);
   }
 }
 
@@ -598,7 +598,7 @@ body.has-custom-cursor button {
   position: relative;
   background: var(--color-dark-green);
   color: var(--color-cream);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0 var(--space-4);
   overflow: hidden;
 }
 
