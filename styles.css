@@ -1059,7 +1059,12 @@ body.has-custom-cursor button {
 }
 
 .strategy-map h2 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
   margin-bottom: var(--space-2);
+}
+
+.strategy-map h2 .accent {
+  color: var(--color-amber);
 }
 
 .strategy-map .lede {
