@@ -246,7 +246,8 @@
       var dispTop = display.getBoundingClientRect().top;
       var termRect = activeTerm.getBoundingClientRect();
       var center = termRect.top + termRect.height / 2 - dispTop;
-      var half = 130; /* approx half the detail block height */
+      var activeDetail = display.querySelector('.map-detail.is-active');
+      var half = activeDetail ? activeDetail.offsetHeight / 2 : 100;
       var y = Math.max(half, Math.min(center, display.offsetHeight - half));
       glide.style.transform = 'translateY(' + y + 'px)';
     }

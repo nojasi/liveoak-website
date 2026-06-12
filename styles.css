@@ -1040,18 +1040,13 @@ body.has-custom-cursor button {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    url('assets/grain.svg'),
-    radial-gradient(90rem 55rem at 22% 25%, rgba(66, 104, 70, 0.9), transparent 62%),
-    radial-gradient(110rem 90rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
-    var(--color-dark-green);
+  background: var(--color-cream);
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.6s ease;
 }
 
 .strategy-map.is-inverted::before {
   opacity: 1;
-  transition: opacity 0.4s ease;
 }
 
 .strategy-map .container {
@@ -1069,11 +1064,6 @@ body.has-custom-cursor button {
 
 .strategy-map .lede {
   margin-bottom: var(--space-4);
-}
-
-.strategy-map.is-inverted h2,
-.strategy-map.is-inverted .lede {
-  color: var(--color-cream);
 }
 
 .map-spotlight {
@@ -1105,18 +1095,12 @@ body.has-custom-cursor button {
   transition: opacity 0.25s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
-.strategy-map.is-inverted .map-term button {
-  color: var(--color-cream);
-  border-bottom-color: rgba(254, 250, 234, 0.2);
-}
-
 .map-term button:hover,
 .map-term.is-active button {
   opacity: 1;
 }
 
-.map-term.is-active button,
-.strategy-map.is-inverted .map-term.is-active button {
+.map-term.is-active button {
   color: var(--color-amber);
 }
 
@@ -1169,7 +1153,6 @@ body.has-custom-cursor button {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s;
-  color: var(--color-cream);
 }
 
 .map-detail.is-active {
@@ -1177,13 +1160,16 @@ body.has-custom-cursor button {
   visibility: visible;
 }
 
-/* Counter + tick label sit above the description */
+/* Counter and tick label on one quiet line */
 .map-detail .map-index {
   font-family: var(--font-display);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  opacity: 0.6;
+  color: var(--color-dark-green);
+  opacity: 0.5;
+  display: block;
+  margin-bottom: var(--space-1);
 }
 
 .map-detail .map-label {
@@ -1192,6 +1178,7 @@ body.has-custom-cursor button {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--color-dark-green);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -1206,13 +1193,15 @@ body.has-custom-cursor button {
   flex: none;
 }
 
+/* Description in body type: readable, not shouting */
 .map-detail p {
-  position: relative;
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-  font-weight: 600;
-  line-height: 1.4;
-  max-width: 24ch;
+  font-family: var(--font-body);
+  font-size: 1.1875rem;
+  line-height: 1.65;
+  color: var(--color-black);
+  max-width: 32ch;
+  border-left: 3px solid rgba(48, 82, 52, 0.18);
+  padding-left: var(--space-2);
 }
 
 @media (min-width: 48rem) {
