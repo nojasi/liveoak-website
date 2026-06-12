@@ -267,40 +267,41 @@
   });
 })();
 
-/* ---------- Roles We Place: category drawers ----------
-   One drawer open at a time. The markup ships with every
-   drawer open so the content is complete without JS; on load
-   all but the first close. Clicking a closed drawer opens it
-   and closes the rest; clicking the open one closes it. */
+/* ---------- Roles We Place: the deck ----------
+   As the next card slides over, the covered card settles:
+   it scales back, tucks up, and dims, keeping its dealt tilt.
+   Progress for card i is how far step i+1 has traveled up the
+   viewport. Skipped under reduced motion; CSS then lays the
+   cards out as a static stack. */
 
 (function () {
-  var list = document.querySelector('.role-drawers');
-  if (!list) {
+  var deck = document.querySelector('.role-deck');
+  if (!deck || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return;
   }
 
-  var drawers = Array.prototype.slice.call(
-    list.querySelectorAll('.role-drawer')
-  );
+  var steps = deck.querySelectorAll('.deck-step');
+  var cards = deck.querySelectorAll('.role-card');
+  var tilts = [-1.2, 1, -0.7, 1.3];
 
-  function setOpen(drawer, open) {
-    drawer.classList.toggle('is-open', open);
-    drawer
-      .querySelector('.drawer-toggle')
-      .setAttribute('aria-expanded', String(open));
+  function update() {
+    var vh = window.innerHeight;
+
+    cards.forEach(function (card, i) {
+      var p = 0;
+      if (i < steps.length - 1) {
+        var nextTop = steps[i + 1].getBoundingClientRect().top;
+        p = Math.max(0, Math.min(1, (vh - nextTop) / vh));
+      }
+      card.style.transform =
+        'rotate(' + tilts[i % tilts.length] + 'deg)' +
+        ' scale(' + (1 - p * 0.05).toFixed(4) + ')' +
+        ' translateY(' + (-p * 14).toFixed(1) + 'px)';
+      card.style.filter = 'brightness(' + (1 - p * 0.28).toFixed(3) + ')';
+    });
   }
 
-  drawers.forEach(function (drawer, i) {
-    setOpen(drawer, i === 0);
-
-    drawer.querySelector('.drawer-toggle').addEventListener('click', function () {
-      var willOpen = !drawer.classList.contains('is-open');
-      drawers.forEach(function (d) {
-        setOpen(d, false);
-      });
-      if (willOpen) {
-        setOpen(drawer, true);
-      }
-    });
-  });
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 })();
