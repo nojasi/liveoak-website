@@ -103,3 +103,37 @@
     setActive(DEFAULT_BG);
   });
 })();
+
+/* ---------- Mobile menu toggle ---------- */
+
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.querySelector('.site-nav');
+  if (!toggle || !nav) {
+    return;
+  }
+
+  function setOpen(open) {
+    toggle.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+  }
+
+  toggle.addEventListener('click', function () {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  /* Tapping a link closes the panel */
+  nav.addEventListener('click', function (e) {
+    if (e.target.closest('a')) {
+      setOpen(false);
+    }
+  });
+
+  /* Escape closes the panel */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      setOpen(false);
+    }
+  });
+})();
