@@ -220,14 +220,35 @@
     });
   }
 
+  var display = spotlight.querySelector('.map-display');
+
   function setActive(name) {
+    var activeTerm = null;
     terms.forEach(function (t) {
-      t.classList.toggle('is-active', t.dataset.map === name);
+      var on = t.dataset.map === name;
+      t.classList.toggle('is-active', on);
+      if (on) {
+        activeTerm = t;
+      }
     });
     details.forEach(function (d) {
       d.classList.toggle('is-active', d.dataset.map === name);
     });
+
+    /* Glide the detail to sit level with the active term.
+       Both columns share a grid row top, so the term's offset
+       center maps straight onto the display column. Clamped
+       so the block never escapes the column. */
+    if (display && activeTerm) {
+      var center = activeTerm.offsetTop + activeTerm.offsetHeight / 2;
+      var half = 130; /* approx half the detail block height */
+      var y = Math.max(half, Math.min(center, display.offsetHeight - half));
+      display.style.setProperty('--detail-y', y + 'px');
+    }
   }
+
+  /* Initial position for the default active item */
+  setActive(spotlight.querySelector('.map-term.is-active').dataset.map);
 
   terms.forEach(function (term) {
     term.addEventListener('mouseenter', function () {
