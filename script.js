@@ -84,6 +84,7 @@
   }
 
   var bgs = document.querySelectorAll('.industry-bg');
+  var DEFAULT_BG = 'landscaping';
 
   function setActive(name) {
     bgs.forEach(function (bg) {
@@ -99,6 +100,6 @@
   });
 
   list.addEventListener('mouseleave', function () {
-    setActive(null);
+    setActive(DEFAULT_BG);
   });
 })();
