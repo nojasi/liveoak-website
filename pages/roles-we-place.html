@@ -34,7 +34,7 @@
 
   <main>
 
-    <section class="page-hero">
+    <section class="page-hero compact">
       <div class="container">
         <p class="eyebrow">Roles We Place</p>
         <h1>The seats that <span class="accent">run</span> the business.</h1>
@@ -48,68 +48,91 @@
         <h2>Every search is a <span class="accent">leadership</span> search.</h2>
         <p class="lede">These are the roles where a bad hire costs you a season and a good one changes the trajectory. Here's where we work.</p>
 
-        <ul class="role-groups">
-          <li class="role-group is-active">
-            <div class="role-group-head">
-              <h3>Executive Leadership</h3>
-              <p class="role-group-note">The people accountable for the whole number.</p>
+        <ul class="role-drawers">
+          <li class="role-drawer role-drawer-exec is-open">
+            <h3>
+              <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-exec">
+                <span>Executive Leadership</span>
+                <span class="drawer-mark" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="role-drawer-body" id="drawer-exec">
+                <p class="role-drawer-note">The people accountable for the whole number.</p>
+                <ul class="role-titles">
+                  <li>CEO</li>
+                  <li>President</li>
+                  <li>COO</li>
+                  <li>CFO</li>
+                  <li>CHRO</li>
+                  <li>Division Presidents</li>
+                  <li>General Managers</li>
+                </ul>
             </div>
-            <ul class="role-titles">
-              <li>CEO</li>
-              <li>President</li>
-              <li>COO</li>
-              <li>CFO</li>
-              <li>CHRO</li>
-              <li>Division Presidents</li>
-              <li>General Managers</li>
-            </ul>
           </li>
-          <li class="role-group">
-            <div class="role-group-head">
-              <h3>Operations</h3>
-              <p class="role-group-note">The leaders who turn plans into crews, routes, and finished work.</p>
+          <li class="role-drawer is-open">
+            <h3>
+              <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-ops">
+                <span>Operations</span>
+                <span class="drawer-mark" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="role-drawer-body" id="drawer-ops">
+                <p class="role-drawer-note">The leaders who turn plans into crews, routes, and finished work.</p>
+                <ul class="role-titles">
+                  <li>Regional Managers</li>
+                  <li>Branch Managers</li>
+                  <li>Operations Managers</li>
+                  <li>Production Managers</li>
+                  <li>Irrigation Managers</li>
+                  <li>Fleet Managers</li>
+                  <li>Safety Directors</li>
+                </ul>
             </div>
-            <ul class="role-titles">
-              <li>Regional Managers</li>
-              <li>Branch Managers</li>
-              <li>Operations Managers</li>
-              <li>Production Managers</li>
-              <li>Irrigation Managers</li>
-              <li>Fleet Managers</li>
-              <li>Safety Directors</li>
-            </ul>
           </li>
-          <li class="role-group">
-            <div class="role-group-head">
-              <h3>Sales &amp; Client Management</h3>
-              <p class="role-group-note">The ones who win the work and keep it.</p>
+          <li class="role-drawer is-open">
+            <h3>
+              <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-sales">
+                <span>Sales &amp; Client Management</span>
+                <span class="drawer-mark" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="role-drawer-body" id="drawer-sales">
+                <p class="role-drawer-note">The ones who win the work and keep it.</p>
+                <ul class="role-titles">
+                  <li>Sales Directors</li>
+                  <li>Business Development Leaders</li>
+                  <li>Account Managers</li>
+                  <li>Client Relationship Leaders</li>
+                </ul>
             </div>
-            <ul class="role-titles">
-              <li>Sales Directors</li>
-              <li>Business Development Leaders</li>
-              <li>Account Managers</li>
-              <li>Client Relationship Leaders</li>
-            </ul>
           </li>
-          <li class="role-group">
-            <div class="role-group-head">
-              <h3>Design &amp; Technical</h3>
-              <p class="role-group-note">The expertise the work is built on.</p>
+          <li class="role-drawer is-open">
+            <h3>
+              <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-design">
+                <span>Design &amp; Technical</span>
+                <span class="drawer-mark" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="role-drawer-body" id="drawer-design">
+                <p class="role-drawer-note">The expertise the work is built on.</p>
+                <ul class="role-titles">
+                  <li>Landscape Architects</li>
+                  <li>Landscape Designers</li>
+                  <li>Arborists</li>
+                </ul>
             </div>
-            <ul class="role-titles">
-              <li>Landscape Architects</li>
-              <li>Landscape Designers</li>
-              <li>Arborists</li>
-            </ul>
           </li>
         </ul>
+
+        <p class="roles-bridge">Every one of these searches runs the same way: a structured intake, a strategy map built for the seat, and outreach we do ourselves.</p>
+        <a class="text-link" href="how-we-work.html">See how we work</a>
       </div>
     </section>
 
     <section class="section cta-band">
       <div class="container">
-        <h2>Ready to start a search?</h2>
-        <p>Tell us about the role. We'll tell you honestly whether we're the right firm for it.</p>
+        <h2>Don't see the seat?</h2>
+        <p>These categories cover most of our work, not all of it. If the role leads people or owns a number in the green industry, talk to us.</p>
         <a class="button button-solid" href="start-a-search.html">Start a Search</a>
       </div>
     </section>

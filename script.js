@@ -267,42 +267,40 @@
   });
 })();
 
-/* ---------- Roles We Place: group focusing ----------
-   The category containing the viewport center is being read;
-   the rest sit dimmed. Same viewport-center logic as the
-   phase list, no progress line (categories are not a
-   sequence). Skipped under reduced motion; CSS shows every
-   group full strength. */
+/* ---------- Roles We Place: category drawers ----------
+   One drawer open at a time. The markup ships with every
+   drawer open so the content is complete without JS; on load
+   all but the first close. Clicking a closed drawer opens it
+   and closes the rest; clicking the open one closes it. */
 
 (function () {
-  var list = document.querySelector('.role-groups');
-  if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var list = document.querySelector('.role-drawers');
+  if (!list) {
     return;
   }
 
-  var groups = list.querySelectorAll('.role-group');
+  var drawers = Array.prototype.slice.call(
+    list.querySelectorAll('.role-drawer')
+  );
 
-  function update() {
-    var mid = window.innerHeight / 2;
-
-    var active = null;
-    groups.forEach(function (group) {
-      var r = group.getBoundingClientRect();
-      if (r.top <= mid && r.bottom >= mid) {
-        active = group;
-      }
-    });
-    if (!active) {
-      var rect = list.getBoundingClientRect();
-      active = rect.top > mid ? groups[0] : groups[groups.length - 1];
-    }
-
-    groups.forEach(function (group) {
-      group.classList.toggle('is-active', group === active);
-    });
+  function setOpen(drawer, open) {
+    drawer.classList.toggle('is-open', open);
+    drawer
+      .querySelector('.drawer-toggle')
+      .setAttribute('aria-expanded', String(open));
   }
 
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  drawers.forEach(function (drawer, i) {
+    setOpen(drawer, i === 0);
+
+    drawer.querySelector('.drawer-toggle').addEventListener('click', function () {
+      var willOpen = !drawer.classList.contains('is-open');
+      drawers.forEach(function (d) {
+        setOpen(d, false);
+      });
+      if (willOpen) {
+        setOpen(drawer, true);
+      }
+    });
+  });
 })();
