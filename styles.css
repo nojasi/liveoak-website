@@ -1276,3 +1276,94 @@ body.has-custom-cursor button {
     display: none;
   }
 }
+
+/* ---------- Roles We Place: role groups ----------
+   Four categories, each a name + one-liner on the left and
+   its role titles on the right. Carries the site's focusing
+   pattern two ways: scroll drives which category is being
+   read (script.js toggles .is-active), and on hover-capable
+   screens the title under the pointer sharpens while its
+   siblings recede. */
+
+.role-groups {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-4);
+}
+
+.role-group {
+  padding: var(--space-3) 0;
+  border-top: 1px solid rgba(48, 82, 52, 0.15);
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
+}
+
+.role-group.is-active {
+  opacity: 1;
+}
+
+@media (min-width: 48rem) {
+  .role-group {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-3) var(--space-4);
+    padding: var(--space-4) 0;
+  }
+}
+
+.role-group h3 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--color-dark-green);
+  margin-bottom: var(--space-1);
+}
+
+.role-group-note {
+  max-width: var(--measure);
+}
+
+.role-titles {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  .role-titles {
+    margin-top: 0;
+  }
+}
+
+.role-titles li {
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  font-weight: 700;
+  color: var(--color-dark-green);
+  padding: 0.625rem 0;
+  border-bottom: 1px solid rgba(48, 82, 52, 0.12);
+  transition: opacity 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.role-titles li:last-child {
+  border-bottom: none;
+}
+
+/* Title-level focusing, hover screens only. Same move as the
+   industry rows: the read line steps right and goes amber. */
+@media (hover: hover) {
+  .role-titles:hover li {
+    opacity: 0.45;
+  }
+
+  .role-titles li:hover {
+    opacity: 1;
+    color: var(--color-amber);
+    transform: translateX(0.5rem);
+  }
+}
+
+/* Reduced motion: no dimming, every group full strength */
+@media (prefers-reduced-motion: reduce) {
+  .role-group {
+    opacity: 1;
+  }
+}

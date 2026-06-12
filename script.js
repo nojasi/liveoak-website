@@ -266,3 +266,43 @@
     });
   });
 })();
+
+/* ---------- Roles We Place: group focusing ----------
+   The category containing the viewport center is being read;
+   the rest sit dimmed. Same viewport-center logic as the
+   phase list, no progress line (categories are not a
+   sequence). Skipped under reduced motion; CSS shows every
+   group full strength. */
+
+(function () {
+  var list = document.querySelector('.role-groups');
+  if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  var groups = list.querySelectorAll('.role-group');
+
+  function update() {
+    var mid = window.innerHeight / 2;
+
+    var active = null;
+    groups.forEach(function (group) {
+      var r = group.getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) {
+        active = group;
+      }
+    });
+    if (!active) {
+      var rect = list.getBoundingClientRect();
+      active = rect.top > mid ? groups[0] : groups[groups.length - 1];
+    }
+
+    groups.forEach(function (group) {
+      group.classList.toggle('is-active', group === active);
+    });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
