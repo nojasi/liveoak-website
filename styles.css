@@ -1065,17 +1065,6 @@ body.has-custom-cursor button {
   transition: opacity 0.25s ease, color 0.25s ease;
 }
 
-/* Amber tick marks the active term, same device as the
-   dark-section eyebrows */
-.map-term button::before {
-  content: '';
-  width: 0;
-  height: 3px;
-  background: var(--color-amber);
-  flex: none;
-  transition: width 0.25s ease;
-}
-
 .map-term button:hover,
 .map-term.is-active button {
   opacity: 1;
@@ -1085,22 +1074,33 @@ body.has-custom-cursor button {
   color: var(--color-amber);
 }
 
-.map-term.is-active button::before {
-  width: 2.1rem;
-}
 
-/* Display panel */
+
+/* Display panel: a dark-surface card built from the same
+   material as the hero. The index number, tick eyebrow, and
+   cream description give the active component its own
+   architecture instead of floating type. */
 .map-display {
   position: relative;
+  background:
+    url('assets/grain.svg'),
+    radial-gradient(40rem 26rem at 20% 15%, rgba(66, 104, 70, 0.9), transparent 62%),
+    radial-gradient(50rem 40rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
+    var(--color-dark-green);
+  color: var(--color-cream);
+  padding: var(--space-3);
+  overflow: hidden;
 }
 
 .map-detail {
   position: absolute;
-  inset: 0;
+  inset: var(--space-3);
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .map-detail.is-active {
@@ -1109,13 +1109,43 @@ body.has-custom-cursor button {
   transform: none;
 }
 
+/* Index: which of the six you are on */
+.map-detail .map-index {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(254, 250, 234, 0.14);
+  margin-bottom: auto;
+}
+
+/* Component name as a tick eyebrow, the dark-section device */
+.map-detail .map-label {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: var(--space-2);
+}
+
+.map-detail .map-label::before {
+  content: '';
+  width: 2.1rem;
+  height: 3px;
+  background: var(--color-amber);
+  flex: none;
+}
+
 .map-detail p {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-dark-green);
-  max-width: 24ch;
+  line-height: 1.4;
+  max-width: 26ch;
 }
 
 @media (min-width: 48rem) {
@@ -1128,7 +1158,7 @@ body.has-custom-cursor button {
   .map-display {
     position: sticky;
     top: 8rem;
-    min-height: 16rem;
+    min-height: 22rem;
   }
 }
 
