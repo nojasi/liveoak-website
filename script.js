@@ -137,3 +137,50 @@
     }
   });
 })();
+
+/* ---------- How We Work: phase progress ----------
+   Drives the amber track line and the active phase highlight.
+   The phase nearest the viewport center is active; the line
+   fills to match scroll position through the list. Skipped
+   entirely under reduced motion (CSS shows all phases full). */
+
+(function () {
+  var list = document.querySelector('.phase-list');
+  if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  var phases = list.querySelectorAll('.phase');
+
+  function update() {
+    var rect = list.getBoundingClientRect();
+    var mid = window.innerHeight / 2;
+
+    /* Progress: how far the viewport center has traveled
+       through the list, clamped 0-100 */
+    var progress = ((mid - rect.top) / rect.height) * 100;
+    progress = Math.max(0, Math.min(100, progress));
+    list.style.setProperty('--progress', progress + '%');
+
+    /* Active phase: the one containing the viewport center,
+       falling back to the nearest */
+    var active = null;
+    phases.forEach(function (phase) {
+      var r = phase.getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) {
+        active = phase;
+      }
+    });
+    if (!active) {
+      active = progress <= 0 ? phases[0] : phases[phases.length - 1];
+    }
+
+    phases.forEach(function (phase) {
+      phase.classList.toggle('is-active', phase === active);
+    });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();

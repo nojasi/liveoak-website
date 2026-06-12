@@ -924,39 +924,98 @@ body.has-custom-cursor button {
 .page-hero h1   { animation-delay: 0.12s; }
 .page-hero .lede { animation-delay: 0.28s; }
 
-/* ---------- How We Work: phase list ---------- */
+/* ---------- How We Work: phase list ----------
+   Scroll-driven sequence. An amber line draws down the left
+   track as the reader moves through the phases; the phase in
+   view lights up, the rest sit dimmed. script.js drives the
+   .is-active class and the --progress height. */
 
 .phase-list {
   list-style: none;
   padding: 0;
   margin-top: var(--space-4);
+  position: relative;
+}
+
+/* Track: faint rail + amber progress fill */
+.phase-list::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(48, 82, 52, 0.12);
+}
+
+.phase-list::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: var(--progress, 0%);
+  background: var(--color-amber);
+  transition: height 0.2s ease-out;
 }
 
 .phase {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 0 var(--space-3);
-  padding: var(--space-3) 0;
-  border-top: 1px solid rgba(48, 82, 52, 0.15);
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0 var(--space-2);
+  padding: var(--space-3) 0 var(--space-3) var(--space-3);
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
 }
 
-.phase:last-child {
-  border-bottom: 1px solid rgba(48, 82, 52, 0.15);
+@media (min-width: 48rem) {
+  .phase {
+    grid-template-columns: 7rem 1fr;
+    padding: var(--space-4) 0 var(--space-4) var(--space-3);
+  }
+}
+
+.phase.is-active {
+  opacity: 1;
 }
 
 .phase-number {
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1;
   color: var(--color-dark-green);
-  opacity: 0.45;
-  padding-top: 0.3rem;
+  opacity: 0.18;
+  transition: color 0.4s ease, opacity 0.4s ease;
+}
+
+.phase.is-active .phase-number {
+  color: var(--color-amber);
+  opacity: 1;
 }
 
 .phase-body h3 {
+  font-size: clamp(1.375rem, 3.5vw, 1.875rem);
   color: var(--color-dark-green);
   margin-bottom: var(--space-1);
+}
+
+.phase-body p {
+  max-width: var(--measure);
+}
+
+/* Reduced motion: everything full strength, no dimming */
+@media (prefers-reduced-motion: reduce) {
+  .phase {
+    opacity: 1;
+  }
+  .phase-number {
+    opacity: 0.45;
+    color: var(--color-dark-green);
+  }
+  .phase-list::after {
+    display: none;
+  }
 }
 
 /* ---------- How We Work: strategy map ---------- */
@@ -993,10 +1052,43 @@ body.has-custom-cursor button {
 .map-item {
   border-top: 2px solid var(--color-medium-green);
   padding-top: var(--space-2);
+  position: relative;
+  transition: opacity 0.25s ease;
+}
+
+/* Amber border draws across on hover */
+.map-item::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-amber);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
 }
 
 .map-item h3 {
   color: var(--color-dark-green);
   margin-bottom: var(--space-1);
   font-size: 1.125rem;
+  transition: color 0.25s ease;
+}
+
+/* The grid focuses where you point: hovered item sharpens,
+   siblings recede */
+@media (hover: hover) {
+  .map-grid:hover .map-item:not(:hover) {
+    opacity: 0.4;
+  }
+
+  .map-item:hover::before {
+    transform: scaleX(1);
+  }
+
+  .map-item:hover h3 {
+    color: var(--color-amber);
+  }
 }
