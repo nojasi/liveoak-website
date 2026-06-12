@@ -203,42 +203,20 @@ h3 {
   padding-bottom: 0.375rem;
 }
 
-.wordmark strong,
-.wordmark span {
-  transition: font-size 0.2s ease;
+.wordmark img {
+  display: block;
+  height: 44px;
+  width: auto;
+  transition: height 0.2s ease;
 }
 
-.site-header.scrolled .wordmark strong {
-  font-size: 0.9375rem;
+.site-header.scrolled .wordmark img {
+  height: 34px;
 }
 
-.site-header.scrolled .wordmark span {
-  font-size: 0.5rem;
-}
-
-/* Logo: text wordmark stand-in. Tree icon drops in
-   here as an img or inline SVG when the file arrives. */
+/* Logo: white SVG, sized via .wordmark img above */
 .wordmark {
-  font-family: var(--font-display);
-  text-decoration: none;
-  line-height: 1.15;
-}
-
-.wordmark strong {
   display: block;
-  font-size: 1.125rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.wordmark span {
-  display: block;
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--color-cream);
-  opacity: 0.7;
 }
 
 .site-nav ul {
