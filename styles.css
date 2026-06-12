@@ -603,15 +603,16 @@ body.has-custom-cursor button {
   position: relative;
   background: var(--color-dark-green);
   color: var(--color-cream);
-  padding: 0 0 var(--space-4);
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) 0;
+  overflow: hidden;
 }
 
 .industry-bgs {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  margin-bottom: -100vh;
+  position: absolute;
+  inset: 0;
 }
 
 .industry-bg {
@@ -644,11 +645,12 @@ body.has-custom-cursor button {
 
 .industry-index .container {
   position: relative;
+  width: 100%;
 }
 
 .industry-list {
   list-style: none;
-  padding: var(--space-3) 0 0;
+  padding: 0;
 }
 
 .industry-row {
