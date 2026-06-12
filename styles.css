@@ -1018,7 +1018,11 @@ body.has-custom-cursor button {
   }
 }
 
-/* ---------- How We Work: strategy map ---------- */
+/* ---------- How We Work: strategy map spotlight ----------
+   Two columns on desktop: component names on the left as a
+   type list, the active component's description displayed
+   large on the right. Hover or focus a name to switch.
+   Mobile: stacked rows, every description visible. */
 
 .strategy-map {
   background: var(--color-white);
@@ -1032,63 +1036,134 @@ body.has-custom-cursor button {
   margin-bottom: var(--space-4);
 }
 
-.map-grid {
+.map-spotlight {
   display: grid;
-  gap: var(--space-3) var(--space-4);
+  gap: var(--space-3);
 }
 
-@media (min-width: 40rem) {
-  .map-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.map-terms {
+  list-style: none;
+  padding: 0;
 }
 
-@media (min-width: 64rem) {
-  .map-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.map-item {
-  border-top: 2px solid var(--color-medium-green);
-  padding-top: var(--space-2);
-  position: relative;
-  transition: opacity 0.25s ease;
-}
-
-/* Amber border draws across on hover */
-.map-item::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-amber);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.3s ease;
-}
-
-.map-item h3 {
+.map-term button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(48, 82, 52, 0.15);
+  padding: var(--space-2) 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-weight: 700;
   color: var(--color-dark-green);
-  margin-bottom: var(--space-1);
-  font-size: 1.125rem;
-  transition: color 0.25s ease;
+  opacity: 0.55;
+  transition: opacity 0.25s ease, color 0.25s ease;
 }
 
-/* The grid focuses where you point: hovered item sharpens,
-   siblings recede */
-@media (hover: hover) {
-  .map-grid:hover .map-item:not(:hover) {
-    opacity: 0.4;
+/* Amber tick marks the active term, same device as the
+   dark-section eyebrows */
+.map-term button::before {
+  content: '';
+  width: 0;
+  height: 3px;
+  background: var(--color-amber);
+  flex: none;
+  transition: width 0.25s ease;
+}
+
+.map-term button:hover,
+.map-term.is-active button {
+  opacity: 1;
+}
+
+.map-term.is-active button {
+  color: var(--color-amber);
+}
+
+.map-term.is-active button::before {
+  width: 2.1rem;
+}
+
+/* Display panel */
+.map-display {
+  position: relative;
+}
+
+.map-detail {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.map-detail.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.map-detail p {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-dark-green);
+  max-width: 24ch;
+}
+
+@media (min-width: 48rem) {
+  .map-spotlight {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
   }
 
-  .map-item:hover::before {
-    transform: scaleX(1);
+  .map-display {
+    position: sticky;
+    top: 8rem;
+    min-height: 16rem;
+  }
+}
+
+/* Mobile and touch: no panel, every description sits under
+   its term. JS leaves this layout alone. */
+@media (max-width: 47.9375rem) {
+  .map-display {
+    display: none;
   }
 
-  .map-item:hover h3 {
-    color: var(--color-amber);
+  .map-term button {
+    opacity: 1;
+    cursor: default;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .map-term {
+    border-bottom: 1px solid rgba(48, 82, 52, 0.15);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .map-term .map-term-detail {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-black);
+    padding-bottom: var(--space-1);
+  }
+}
+
+@media (min-width: 48rem) {
+  .map-term-detail {
+    display: none;
   }
 }

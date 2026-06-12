@@ -184,3 +184,36 @@
   window.addEventListener('resize', update);
   update();
 })();
+
+/* ---------- How We Work: strategy map spotlight ----------
+   Hovering or focusing a term shows its description in the
+   display panel. Desktop only; mobile shows every description
+   inline via CSS, so this never runs there. */
+
+(function () {
+  var spotlight = document.querySelector('.map-spotlight');
+  if (!spotlight || !window.matchMedia('(hover: hover)').matches) {
+    return;
+  }
+
+  var terms = spotlight.querySelectorAll('.map-term');
+  var details = spotlight.querySelectorAll('.map-detail');
+
+  function setActive(name) {
+    terms.forEach(function (t) {
+      t.classList.toggle('is-active', t.dataset.map === name);
+    });
+    details.forEach(function (d) {
+      d.classList.toggle('is-active', d.dataset.map === name);
+    });
+  }
+
+  terms.forEach(function (term) {
+    term.addEventListener('mouseenter', function () {
+      setActive(term.dataset.map);
+    });
+    term.querySelector('button').addEventListener('focus', function () {
+      setActive(term.dataset.map);
+    });
+  });
+})();
