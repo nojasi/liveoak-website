@@ -346,7 +346,11 @@ h3 {
 /* ---------- Hero ---------- */
 
 .hero {
-  background: var(--color-dark-green) url('assets/contours.svg') center / cover no-repeat;
+  background:
+    url('assets/grain.svg'),
+    radial-gradient(90rem 55rem at 22% 25%, rgba(66, 104, 70, 0.9), transparent 62%),
+    radial-gradient(110rem 90rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
+    var(--color-dark-green);
   color: var(--color-cream);
   padding: 9rem 0 var(--space-5);
 }
@@ -359,12 +363,26 @@ h3 {
 
 .hero .eyebrow {
   color: var(--color-cream);
-  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero .eyebrow::before {
+  content: '';
+  width: 2.1rem;
+  height: 3px;
+  background: var(--color-amber);
+  flex: none;
 }
 
 .hero h1 {
   max-width: 16ch;
   margin-bottom: var(--space-3);
+}
+
+.hero h1 .accent {
+  color: var(--color-amber);
 }
 
 .hero .lede {
@@ -379,33 +397,6 @@ h3 {
   gap: var(--space-2);
 }
 
-/* Split hero: copy left, inset oak photo right on desktop */
-.hero-grid {
-  display: grid;
-  gap: var(--space-4);
-  align-items: center;
-}
-
-.hero-photo {
-  display: none;
-  margin: 0;
-}
-
-@media (min-width: 60rem) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  }
-
-  .hero-photo {
-    display: block;
-  }
-
-  .hero-photo img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-  }
-}
 
 /* Hero entrance: each element rises in sequence on load */
 @keyframes rise-in {
@@ -430,10 +421,6 @@ h3 {
 .hero .lede { animation-delay: 0.28s; }
 .hero-actions { animation-delay: 0.44s; }
 
-.hero-photo {
-  animation: rise-in 0.7s ease-out both;
-  animation-delay: 0.2s;
-}
 
 /* ---------- Positioning / signature ---------- */
 
@@ -591,7 +578,11 @@ h3 {
 .cta-band {
   position: relative;
   z-index: 1;
-  background: var(--color-dark-green) url('assets/contours.svg') center / cover no-repeat;
+  background:
+    url('assets/grain.svg'),
+    radial-gradient(80rem 50rem at 50% -20%, rgba(66, 104, 70, 0.7), transparent 60%),
+    radial-gradient(100rem 80rem at 100% 130%, rgba(20, 38, 24, 0.8), transparent 65%),
+    var(--color-dark-green);
   color: var(--color-cream);
   text-align: center;
 }
