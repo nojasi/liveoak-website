@@ -1139,17 +1139,44 @@ body.has-custom-cursor button {
   left: 0;
   right: 0;
   top: 0;
-  transform: translateY(8rem);
+  height: 19rem;
+  background: rgba(102, 151, 59, 0.06);
+  overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
 }
 
-.map-detail {
+/* The water: a green level that rises one sixth per term,
+   with an amber hairline riding the waterline. The whole
+   panel is the gauge of how deep into the map you are. */
+.map-water {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: 0;
+  height: var(--level, 17%);
+  background: rgba(102, 151, 59, 0.13);
+  transition: height 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+}
+
+.map-water::before {
+  content: '';
+  position: absolute;
   top: 0;
-  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-amber);
+}
+
+.map-detail {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s;
@@ -1160,7 +1187,7 @@ body.has-custom-cursor button {
   visibility: visible;
 }
 
-/* Counter and tick label on one quiet line */
+/* Counter and tick label */
 .map-detail .map-index {
   font-family: var(--font-display);
   font-size: 0.8125rem;
@@ -1193,15 +1220,12 @@ body.has-custom-cursor button {
   flex: none;
 }
 
-/* Description in body type: readable, not shouting */
 .map-detail p {
   font-family: var(--font-body);
   font-size: 1.1875rem;
   line-height: 1.65;
   color: var(--color-black);
   max-width: 32ch;
-  border-left: 3px solid rgba(48, 82, 52, 0.18);
-  padding-left: var(--space-2);
 }
 
 @media (min-width: 48rem) {

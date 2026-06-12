@@ -241,15 +241,16 @@
        so the block never escapes the column. */
     if (display && activeTerm) {
       var glide = display.querySelector('.map-detail-glide');
-      /* Term centers measured against the shared spotlight, so
-         heading offsets above the grid can't skew the math */
       var dispTop = display.getBoundingClientRect().top;
       var termRect = activeTerm.getBoundingClientRect();
       var center = termRect.top + termRect.height / 2 - dispTop;
-      var activeDetail = display.querySelector('.map-detail.is-active');
-      var half = activeDetail ? activeDetail.offsetHeight / 2 : 100;
+      var half = glide.offsetHeight / 2;
       var y = Math.max(half, Math.min(center, display.offsetHeight - half));
-      glide.style.transform = 'translateY(' + y + 'px)';
+      glide.style.transform = 'translateY(' + (y - half) + 'px)';
+
+      /* Water level: one sixth per term */
+      var idx = Array.prototype.indexOf.call(terms, activeTerm) + 1;
+      glide.style.setProperty('--level', (idx / terms.length) * 100 + '%');
     }
   }
 
