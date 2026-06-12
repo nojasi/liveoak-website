@@ -240,10 +240,15 @@
        center maps straight onto the display column. Clamped
        so the block never escapes the column. */
     if (display && activeTerm) {
-      var center = activeTerm.offsetTop + activeTerm.offsetHeight / 2;
+      var glide = display.querySelector('.map-detail-glide');
+      /* Term centers measured against the shared spotlight, so
+         heading offsets above the grid can't skew the math */
+      var dispTop = display.getBoundingClientRect().top;
+      var termRect = activeTerm.getBoundingClientRect();
+      var center = termRect.top + termRect.height / 2 - dispTop;
       var half = 130; /* approx half the detail block height */
       var y = Math.max(half, Math.min(center, display.offsetHeight - half));
-      display.style.setProperty('--detail-y', y + 'px');
+      glide.style.transform = 'translateY(' + y + 'px)';
     }
   }
 
