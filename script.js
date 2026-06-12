@@ -84,7 +84,7 @@
   }
 
   var bgs = document.querySelectorAll('.industry-bg');
-  var DEFAULT_BG = 'landscaping';
+  var DEFAULT_BG = 'liveoak';
 
   function setActive(name) {
     bgs.forEach(function (bg) {
