@@ -288,14 +288,16 @@ h3 {
     z-index: 11;
     background: var(--color-dark-green);
     padding: 7rem var(--space-3) var(--space-3);
-    transform: translateY(-100%);
+    clip-path: circle(0 at calc(100% - 2.75rem) 2.25rem);
     visibility: hidden;
-    transition: transform 0.3s ease, visibility 0.3s ease;
+    transition: clip-path 0.35s ease-in, visibility 0.35s ease-in;
   }
 
   .site-nav.open {
-    transform: none;
+    clip-path: circle(150% at calc(100% - 2.75rem) 2.25rem);
     visibility: visible;
+    transition: clip-path 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+      visibility 0.5s;
   }
 
   .site-nav ul {
@@ -303,9 +305,31 @@ h3 {
     gap: var(--space-3);
   }
 
+  .site-nav li {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .site-nav.open li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .site-nav.open li:nth-child(1) { transition-delay: 0.2s; }
+  .site-nav.open li:nth-child(2) { transition-delay: 0.26s; }
+  .site-nav.open li:nth-child(3) { transition-delay: 0.32s; }
+  .site-nav.open li:nth-child(4) { transition-delay: 0.38s; }
+  .site-nav.open li:nth-child(5) { transition-delay: 0.44s; }
+
   .site-nav a {
     font-size: 1.75rem;
     font-weight: 700;
+  }
+
+  /* Primary action stands apart */
+  .site-nav li:last-child a {
+    color: var(--color-amber);
   }
 
   body.nav-open {
@@ -707,6 +731,16 @@ body.has-custom-cursor button {
   opacity: 0.9;
 }
 
+/* Intro entrance: same orchestration as the home hero */
+.industry-intro .eyebrow,
+.industry-intro h1,
+.industry-intro .lede {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.industry-intro h1 { animation-delay: 0.12s; }
+.industry-intro .lede { animation-delay: 0.28s; }
+
 .industry-bg {
   position: absolute;
   inset: 0;
@@ -788,10 +822,16 @@ body.has-custom-cursor button {
     display: none;
   }
 
-  /* The live oak backs the intro on touch screens */
+  /* The live oak backs the intro on touch screens; deep at the
+     top behind the title, opening downward so the tree reads */
   .industry-index {
     background-image:
-      linear-gradient(rgba(48, 82, 52, 0.85), rgba(48, 82, 52, 0.85)),
+      linear-gradient(
+        180deg,
+        rgba(48, 82, 52, 0.95) 0%,
+        rgba(48, 82, 52, 0.6) 45%,
+        rgba(48, 82, 52, 0.45) 100%
+      ),
       url('assets/liveoak.jpg');
     background-size: cover;
     background-position: center;
@@ -799,19 +839,22 @@ body.has-custom-cursor button {
 
   .industry-row {
     position: relative;
+    min-height: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: var(--space-3) var(--space-2);
     margin-bottom: var(--space-2);
     border-bottom: none;
     background-color: var(--color-dark-green);
     background-size: cover;
     background-position: center;
-    background-blend-mode: multiply;
   }
 
-  .industry-row[data-industry="landscaping"]   { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/landscaping.jpg'); }
-  .industry-row[data-industry="horticulture"]  { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/horticulture.jpg'); }
-  .industry-row[data-industry="arboriculture"] { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/arboriculture.jpg'); }
-  .industry-row[data-industry="exterior"]      { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/exterior.jpg'); }
-  .industry-row[data-industry="residential"]   { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/residential.jpg'); }
-  .industry-row[data-industry="golf"]          { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/golf.jpg'); }
+  .industry-row[data-industry="landscaping"]   { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/landscaping.jpg'); }
+  .industry-row[data-industry="horticulture"]  { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/horticulture.jpg'); }
+  .industry-row[data-industry="arboriculture"] { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/arboriculture.jpg'); }
+  .industry-row[data-industry="exterior"]      { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/exterior.jpg'); }
+  .industry-row[data-industry="residential"]   { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/residential.jpg'); }
+  .industry-row[data-industry="golf"]          { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/golf.jpg'); }
 }
