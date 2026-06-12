@@ -198,6 +198,27 @@
 
   var terms = spotlight.querySelectorAll('.map-term');
   var details = spotlight.querySelectorAll('.map-detail');
+  var section = document.querySelector('.strategy-map');
+
+  /* The inversion: entering the list floods the section dark,
+     leaving releases it. Skipped under reduced motion; the
+     section then keeps its static white layout. */
+  if (section && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    spotlight.addEventListener('mouseenter', function () {
+      section.classList.add('is-inverted');
+    });
+    spotlight.addEventListener('mouseleave', function () {
+      section.classList.remove('is-inverted');
+    });
+    spotlight.addEventListener('focusin', function () {
+      section.classList.add('is-inverted');
+    });
+    spotlight.addEventListener('focusout', function (e) {
+      if (!spotlight.contains(e.relatedTarget)) {
+        section.classList.remove('is-inverted');
+      }
+    });
+  }
 
   function setActive(name) {
     terms.forEach(function (t) {

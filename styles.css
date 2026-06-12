@@ -1024,8 +1024,43 @@ body.has-custom-cursor button {
    large on the right. Hover or focus a name to switch.
    Mobile: stacked rows, every description visible. */
 
+/* At rest the section is white and quiet. Engaging the list
+   floods the section with the dark-surface material and
+   summons the panel. The flood arrives fast, releases slow.
+   Hover-capable screens only; everywhere else this section
+   keeps the static white layout. */
+
 .strategy-map {
+  position: relative;
   background: var(--color-white);
+  overflow: hidden;
+}
+
+.strategy-map::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    url('assets/grain.svg'),
+    radial-gradient(90rem 55rem at 22% 25%, rgba(66, 104, 70, 0.9), transparent 62%),
+    radial-gradient(110rem 90rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
+    var(--color-dark-green);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.strategy-map.is-inverted::before {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.strategy-map .container {
+  position: relative;
+}
+
+.strategy-map h2,
+.strategy-map .lede {
+  transition: color 0.5s ease;
 }
 
 .strategy-map h2 {
@@ -1034,6 +1069,11 @@ body.has-custom-cursor button {
 
 .strategy-map .lede {
   margin-bottom: var(--space-4);
+}
+
+.strategy-map.is-inverted h2,
+.strategy-map.is-inverted .lede {
+  color: var(--color-cream);
 }
 
 .map-spotlight {
@@ -1062,7 +1102,12 @@ body.has-custom-cursor button {
   font-weight: 700;
   color: var(--color-dark-green);
   opacity: 0.55;
-  transition: opacity 0.25s ease, color 0.25s ease;
+  transition: opacity 0.25s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.strategy-map.is-inverted .map-term button {
+  color: var(--color-cream);
+  border-bottom-color: rgba(254, 250, 234, 0.2);
 }
 
 .map-term button:hover,
@@ -1070,7 +1115,8 @@ body.has-custom-cursor button {
   opacity: 1;
 }
 
-.map-term.is-active button {
+.map-term.is-active button,
+.strategy-map.is-inverted .map-term.is-active button {
   color: var(--color-amber);
 }
 
@@ -1088,8 +1134,26 @@ body.has-custom-cursor button {
     radial-gradient(50rem 40rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
     var(--color-dark-green);
   color: var(--color-cream);
+  border: 1px solid rgba(254, 250, 234, 0.18);
   padding: var(--space-3);
   overflow: hidden;
+}
+
+/* The panel hides at rest and is summoned by the flood.
+   Only where the inversion can actually run: fine hover
+   pointers with motion allowed. Everywhere else the panel
+   stays visible as the static design. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .map-display {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .strategy-map.is-inverted .map-display {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .map-detail {
