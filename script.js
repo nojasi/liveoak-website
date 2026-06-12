@@ -71,3 +71,34 @@
     dot.classList.add('is-hidden');
   });
 })();
+
+/* ---------- Industry index photo crossfade ----------
+   Industries We Serve page only. Hovering a row fades in
+   that industry's background photo. Hover-capable screens
+   only; touch layouts carry photos per-row in CSS. */
+
+(function () {
+  var list = document.querySelector('.industry-list');
+  if (!list || !window.matchMedia('(hover: hover)').matches) {
+    return;
+  }
+
+  var bgs = document.querySelectorAll('.industry-bg');
+
+  function setActive(name) {
+    bgs.forEach(function (bg) {
+      bg.classList.toggle('is-active', bg.dataset.bg === name);
+    });
+  }
+
+  list.addEventListener('mouseover', function (e) {
+    var row = e.target.closest('.industry-row');
+    if (row) {
+      setActive(row.dataset.industry);
+    }
+  });
+
+  list.addEventListener('mouseleave', function () {
+    setActive(null);
+  });
+})();

@@ -575,3 +575,127 @@ body.has-custom-cursor button {
 .cursor-dot.is-hidden {
   opacity: 0;
 }
+
+/* ---------- Compact hero (interior pages) ---------- */
+
+.hero-compact {
+  padding: 8rem 0 var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .hero-compact {
+    padding: 10rem 0 var(--space-4);
+  }
+}
+
+/* ---------- Industry index (Industries We Serve) ----------
+   Full-bleed dark green panel. On hover-capable screens,
+   hovering a row crossfades that industry's photo in behind
+   the list. Photos live in /assets/; until a photo exists
+   the panel stays solid dark green. */
+
+.industry-index {
+  position: relative;
+  background: var(--color-dark-green);
+  color: var(--color-cream);
+  padding: var(--space-4) 0;
+  overflow: hidden;
+}
+
+.industry-bgs {
+  position: absolute;
+  inset: 0;
+}
+
+.industry-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.industry-bg[data-bg="landscaping"]   { background-image: url('assets/landscaping.jpg'); }
+.industry-bg[data-bg="horticulture"]  { background-image: url('assets/horticulture.jpg'); }
+.industry-bg[data-bg="arboriculture"] { background-image: url('assets/arboriculture.jpg'); }
+.industry-bg[data-bg="exterior"]      { background-image: url('assets/exterior.jpg'); }
+.industry-bg[data-bg="residential"]   { background-image: url('assets/residential.jpg'); }
+.industry-bg[data-bg="golf"]          { background-image: url('assets/golf.jpg'); }
+
+.industry-bg.is-active {
+  opacity: 1;
+}
+
+/* Dark green overlay keeps text readable over any photo */
+.industry-bgs::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(48, 82, 52, 0.78);
+}
+
+.industry-index .container {
+  position: relative;
+}
+
+.industry-list {
+  list-style: none;
+  padding: 0;
+}
+
+.industry-row {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid rgba(254, 250, 234, 0.2);
+}
+
+.industry-row:last-child {
+  border-bottom: none;
+}
+
+.industry-row h2 {
+  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  font-weight: 800;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.industry-row p {
+  max-width: var(--measure);
+  color: var(--color-cream);
+  opacity: 0.75;
+  margin-top: var(--space-1);
+}
+
+@media (hover: hover) {
+  .industry-row:hover h2 {
+    transform: translateX(0.5rem);
+    color: var(--color-amber);
+  }
+}
+
+/* Touch screens get no hover, so each row carries its own
+   photo with the same overlay. Missing photos degrade to
+   the dark green panel. */
+@media (hover: none) {
+  .industry-bgs {
+    display: none;
+  }
+
+  .industry-row {
+    position: relative;
+    padding: var(--space-3) var(--space-2);
+    margin-bottom: var(--space-2);
+    border-bottom: none;
+    background-color: var(--color-dark-green);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
+
+  .industry-row[data-industry="landscaping"]   { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/landscaping.jpg'); }
+  .industry-row[data-industry="horticulture"]  { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/horticulture.jpg'); }
+  .industry-row[data-industry="arboriculture"] { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/arboriculture.jpg'); }
+  .industry-row[data-industry="exterior"]      { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/exterior.jpg'); }
+  .industry-row[data-industry="residential"]   { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/residential.jpg'); }
+  .industry-row[data-industry="golf"]          { background-image: linear-gradient(rgba(48, 82, 52, 0.82), rgba(48, 82, 52, 0.82)), url('assets/golf.jpg'); }
+}
