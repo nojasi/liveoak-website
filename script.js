@@ -280,7 +280,6 @@
     return;
   }
 
-  var steps = deck.querySelectorAll('.deck-step');
   var cards = deck.querySelectorAll('.role-card');
   var tilts = [-1.2, 1, -0.7, 1.3];
 
@@ -289,9 +288,12 @@
 
     cards.forEach(function (card, i) {
       var p = 0;
-      if (i < steps.length - 1) {
-        var nextTop = steps[i + 1].getBoundingClientRect().top;
-        p = Math.max(0, Math.min(1, (vh - nextTop) / vh));
+      if (i < cards.length - 1) {
+        /* Progress: how far the next card has traveled from the
+           viewport bottom to its sticky landing point */
+        var landing = vh * 0.11 + (i + 1) * 12;
+        var nextTop = cards[i + 1].getBoundingClientRect().top;
+        p = Math.max(0, Math.min(1, (vh - nextTop) / (vh - landing)));
       }
       card.style.transform =
         'rotate(' + tilts[i % tilts.length] + 'deg)' +

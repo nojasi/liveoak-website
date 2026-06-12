@@ -1305,15 +1305,12 @@ body.has-custom-cursor button {
   margin: 0;
 }
 
-.deck-step {
-  min-height: 100vh;
-  min-height: 100svh;
-}
-
 .role-card {
   position: sticky;
   height: 78vh;
   height: 78svh;
+  margin-bottom: 24vh;
+  margin-bottom: 24svh;
   border-radius: 1.5rem;
   overflow: hidden;
   background:
@@ -1348,13 +1345,28 @@ body.has-custom-cursor button {
   );
 }
 
+.role-card:last-child {
+  margin-bottom: 0;
+}
+
 /* The deal: alternating tilt and a stagger in where each card
    rests, so covered edges peek out like a worked-through deck.
-   The JS re-applies the same tilt with the settle added. */
-.deck-step:nth-child(1) .role-card { transform: rotate(-1.2deg); top: 11vh; top: 11svh; }
-.deck-step:nth-child(2) .role-card { transform: rotate(1deg);    top: calc(11vh + 12px); top: calc(11svh + 12px); }
-.deck-step:nth-child(3) .role-card { transform: rotate(-0.7deg); top: calc(11vh + 24px); top: calc(11svh + 24px); }
-.deck-step:nth-child(4) .role-card { transform: rotate(1.3deg);  top: calc(11vh + 36px); top: calc(11svh + 36px); }
+   All four are sticky in the shared deck container, so every
+   covered card stays pinned underneath as the next lands on
+   top. The JS re-applies the same tilt with the settle added. */
+.role-card:nth-child(1) { transform: rotate(-1.2deg); top: 11vh; top: 11svh; }
+.role-card:nth-child(2) { transform: rotate(1deg);    top: calc(11vh + 12px); top: calc(11svh + 12px); }
+.role-card:nth-child(3) { transform: rotate(-0.7deg); top: calc(11vh + 24px); top: calc(11svh + 24px); }
+.role-card:nth-child(4) { transform: rotate(1.3deg);  top: calc(11vh + 36px); top: calc(11svh + 36px); }
+
+/* Executive Leadership test photo: grain stays on top, the
+   scrim does the darkening, the photo sits behind both */
+.role-card-exec {
+  background:
+    url('assets/grain.svg'),
+    url('assets/roles-exec.jpg') center / cover no-repeat,
+    var(--color-dark-green);
+}
 
 .role-card-content {
   position: relative;
@@ -1433,11 +1445,7 @@ body.has-custom-cursor button {
 
 /* Reduced motion: a calm static stack, no tilt, no sticky */
 @media (prefers-reduced-motion: reduce) {
-  .deck-step {
-    min-height: 0;
-  }
-
-  .deck-step .role-card {
+  .role-card {
     position: static;
     transform: none;
     height: auto;
