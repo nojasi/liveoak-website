@@ -1128,21 +1128,12 @@ body.has-custom-cursor button {
    architecture instead of floating type. */
 .map-display {
   position: relative;
-  background:
-    url('assets/grain.svg'),
-    radial-gradient(40rem 26rem at 20% 15%, rgba(66, 104, 70, 0.9), transparent 62%),
-    radial-gradient(50rem 40rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
-    var(--color-dark-green);
-  color: var(--color-cream);
-  border: 1px solid rgba(254, 250, 234, 0.18);
-  padding: var(--space-3);
-  overflow: hidden;
 }
 
 /* The panel hides at rest and is summoned by the flood.
    Only where the inversion can actually run: fine hover
-   pointers with motion allowed. Everywhere else the panel
-   stays visible as the static design. */
+   pointers with motion allowed. Everywhere else it stays
+   visible as the static design. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .map-display {
     opacity: 0;
@@ -1158,13 +1149,15 @@ body.has-custom-cursor button {
 
 .map-detail {
   position: absolute;
-  inset: var(--space-3);
+  inset: 0;
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  color: var(--color-cream);
 }
 
 .map-detail.is-active {
@@ -1173,17 +1166,34 @@ body.has-custom-cursor button {
   transform: none;
 }
 
-/* Index: which of the six you are on */
-.map-detail .map-index {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 6vw, 5.5rem);
-  font-weight: 800;
-  line-height: 1;
-  color: rgba(254, 250, 234, 0.14);
-  margin-bottom: auto;
+/* Watermark icon: oversized, faint cream, cropped off the
+   right edge. The flood is the container; the icon is the
+   component's mark looming behind the type. */
+.map-icon {
+  position: absolute;
+  top: 50%;
+  right: -4rem;
+  width: 22rem;
+  height: 22rem;
+  transform: translateY(-58%);
+  color: rgba(254, 250, 234, 0.1);
+  pointer-events: none;
 }
 
-/* Component name as a tick eyebrow, the dark-section device */
+.map-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Counter + tick label sit above the description */
+.map-detail .map-index {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  opacity: 0.6;
+}
+
 .map-detail .map-label {
   font-family: var(--font-display);
   font-size: 0.8125rem;
@@ -1205,11 +1215,12 @@ body.has-custom-cursor button {
 }
 
 .map-detail p {
+  position: relative;
   font-family: var(--font-display);
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
   font-weight: 600;
   line-height: 1.4;
-  max-width: 26ch;
+  max-width: 24ch;
 }
 
 @media (min-width: 48rem) {
@@ -1222,7 +1233,7 @@ body.has-custom-cursor button {
   .map-display {
     position: sticky;
     top: 8rem;
-    min-height: 22rem;
+    min-height: 24rem;
   }
 }
 
