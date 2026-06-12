@@ -864,3 +864,139 @@ body.has-custom-cursor button {
   .industry-row[data-industry="residential"]   { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/residential.jpg'); }
   .industry-row[data-industry="golf"]          { background-image: linear-gradient(100deg, rgba(48, 82, 52, 0.9) 0%, rgba(48, 82, 52, 0.42) 100%), url('assets/golf.jpg'); }
 }
+
+/* ---------- Inner-page hero (How We Work, Who We Are, etc.) ----------
+   Shares the same dark-surface material as the home hero but shorter.
+   Paths are relative to styles.css (site root). */
+
+.page-hero {
+  background:
+    url('assets/grain.svg'),
+    radial-gradient(90rem 55rem at 22% 25%, rgba(66, 104, 70, 0.9), transparent 62%),
+    radial-gradient(110rem 90rem at 100% 115%, rgba(20, 38, 24, 0.85), transparent 65%),
+    var(--color-dark-green);
+  color: var(--color-cream);
+  padding: 9rem 0 var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .page-hero {
+    padding: 11rem 0 6rem;
+  }
+}
+
+.page-hero .eyebrow {
+  color: var(--color-cream);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page-hero .eyebrow::before {
+  content: '';
+  width: 2.1rem;
+  height: 3px;
+  background: var(--color-amber);
+  flex: none;
+}
+
+.page-hero h1 {
+  max-width: 20ch;
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.page-hero h1 .accent {
+  color: var(--color-amber);
+}
+
+.page-hero .lede {
+  color: var(--color-cream);
+  opacity: 0.9;
+  max-width: var(--measure);
+}
+
+.page-hero .eyebrow,
+.page-hero h1,
+.page-hero .lede {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.page-hero h1   { animation-delay: 0.12s; }
+.page-hero .lede { animation-delay: 0.28s; }
+
+/* ---------- How We Work: phase list ---------- */
+
+.phase-list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-4);
+}
+
+.phase {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid rgba(48, 82, 52, 0.15);
+}
+
+.phase:last-child {
+  border-bottom: 1px solid rgba(48, 82, 52, 0.15);
+}
+
+.phase-number {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-dark-green);
+  opacity: 0.45;
+  padding-top: 0.3rem;
+}
+
+.phase-body h3 {
+  color: var(--color-dark-green);
+  margin-bottom: var(--space-1);
+}
+
+/* ---------- How We Work: strategy map ---------- */
+
+.strategy-map {
+  background: var(--color-white);
+}
+
+.strategy-map h2 {
+  margin-bottom: var(--space-2);
+}
+
+.strategy-map .lede {
+  margin-bottom: var(--space-4);
+}
+
+.map-grid {
+  display: grid;
+  gap: var(--space-3) var(--space-4);
+}
+
+@media (min-width: 40rem) {
+  .map-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 64rem) {
+  .map-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.map-item {
+  border-top: 2px solid var(--color-medium-green);
+  padding-top: var(--space-2);
+}
+
+.map-item h3 {
+  color: var(--color-dark-green);
+  margin-bottom: var(--space-1);
+  font-size: 1.125rem;
+}
