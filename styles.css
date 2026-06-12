@@ -1095,13 +1095,21 @@ body.has-custom-cursor button {
   transition: opacity 0.25s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
+/* Engaging the list deepens the focus: everything not being
+   read recedes, the active term sharpens and gains weight */
+.strategy-map.is-inverted .map-term button {
+  opacity: 0.28;
+}
+
 .map-term button:hover,
-.map-term.is-active button {
+.map-term.is-active button,
+.strategy-map.is-inverted .map-term.is-active button {
   opacity: 1;
 }
 
 .map-term.is-active button {
   color: var(--color-amber);
+  font-weight: 800;
 }
 
 
