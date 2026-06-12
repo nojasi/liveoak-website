@@ -1147,15 +1147,26 @@ body.has-custom-cursor button {
   }
 }
 
-.map-detail {
+/* The glide wrapper is the element that travels; details
+   crossfade inside it while it moves, so the motion is
+   always visible. */
+.map-detail-glide {
   position: absolute;
   left: 0;
   right: 0;
   top: var(--detail-y, 50%);
+  transition: top 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.map-detail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
   transform: translateY(-50%);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s, top 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: opacity 0.3s ease, visibility 0.3s;
   color: var(--color-cream);
 }
 
