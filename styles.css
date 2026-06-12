@@ -577,42 +577,50 @@ body.has-custom-cursor button {
   opacity: 0;
 }
 
-/* ---------- Compact hero (interior pages) ---------- */
-
-.hero-compact {
-  padding: 8rem 0 var(--space-3);
-}
-
-.hero-compact h1 {
-  font-size: clamp(2.25rem, 6vw, 3.5rem);
-}
-
-@media (min-width: 48rem) {
-  .hero-compact {
-    padding: 10rem 0 var(--space-3);
-  }
-}
-
 /* ---------- Industry index (Industries We Serve) ----------
-   Full-bleed dark green panel. On hover-capable screens,
-   hovering a row crossfades that industry's photo in behind
-   the list. Photos live in /assets/; until a photo exists
-   the panel stays solid dark green. */
+   One full-bleed composition: photo behind everything, page
+   intro and industry list on top. The photo layer is sticky,
+   always filling the screen in view. Hovering a row crossfades
+   to that industry's photo. Photos live in /assets/; until a
+   photo exists the panel stays solid dark green. */
 
 .industry-index {
   position: relative;
   background: var(--color-dark-green);
   color: var(--color-cream);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: var(--space-4) 0;
-  overflow: hidden;
+  padding: 0 0 var(--space-4);
 }
 
 .industry-bgs {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+}
+
+.industry-intro {
+  padding: 8rem 0 var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .industry-intro {
+    padding-top: 10rem;
+  }
+}
+
+.industry-intro h1 {
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  margin-bottom: var(--space-3);
+}
+
+.industry-intro .eyebrow {
+  color: var(--color-cream);
+  opacity: 0.75;
+}
+
+.industry-intro .lede {
+  opacity: 0.9;
 }
 
 .industry-bg {
@@ -645,7 +653,6 @@ body.has-custom-cursor button {
 
 .industry-index .container {
   position: relative;
-  width: 100%;
 }
 
 .industry-list {
