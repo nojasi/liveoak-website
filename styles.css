@@ -1140,34 +1140,34 @@ body.has-custom-cursor button {
   right: 0;
   top: 0;
   height: 19rem;
-  background: rgba(102, 151, 59, 0.06);
+  background: rgba(102, 151, 59, 0.08);
   overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
 }
 
-/* The water: a green level that rises one sixth per term,
-   with an amber hairline riding the waterline. The whole
-   panel is the gauge of how deep into the map you are. */
+/* The gauge: an amber fill rising up the panel's left edge,
+   one sixth per term. How deep into the map you are. */
 .map-water {
   position: absolute;
   left: 0;
-  right: 0;
   bottom: 0;
+  width: 4px;
   height: var(--level, 17%);
-  background: rgba(102, 151, 59, 0.13);
+  background: var(--color-amber);
   transition: height 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
   pointer-events: none;
 }
 
-.map-water::before {
+/* Faint rail showing the full run */
+.map-detail-glide::before {
   content: '';
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-amber);
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(48, 82, 52, 0.12);
 }
 
 .map-detail {
