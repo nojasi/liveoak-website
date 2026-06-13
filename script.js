@@ -341,6 +341,14 @@
       card.classList.toggle('is-active', card === nearest);
     });
 
+    /* The closing panel reveals its text once it has essentially
+       reached center (nearest and within a small distance). */
+    var closeCard = track.querySelector('.sweep-card-close');
+    if (closeCard) {
+      var landed = closeCard === nearest && nearestDist < window.innerWidth * 0.18;
+      closeCard.classList.toggle('is-landed', landed);
+    }
+
     /* Hint: show as the section comes into view and the sweep
        has barely begun; hide once the user is into it. */
     if (hint) {

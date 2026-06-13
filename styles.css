@@ -1438,6 +1438,16 @@ body.has-custom-cursor button {
   background-image: url('assets/roles-growing.jpg');
 }
 
+/* Sales & Client Management */
+.sweep-card-sales .sweep-photo {
+  background-image: url('assets/roles-sales.jpg');
+}
+
+/* Design & Technical */
+.sweep-card-design .sweep-photo {
+  background-image: url('assets/roles-design.jpg');
+}
+
 /* Roles as a roster: one row each, hairline divided, uniform
    width so every title carries equal weight regardless of
    length. Two columns on the wide cards to use the space. */
@@ -1579,8 +1589,74 @@ body.has-custom-cursor button {
   }
 }
 
-/* Bridge to the method */
-.roles-bridge {
-  margin-top: var(--space-4);
-  max-width: var(--measure);
+/* ---------- Roles We Place: closing panel ----------
+   The sixth sweep card: no photo, pure type on the dark
+   material. The through-line statement at display scale plus
+   the exit link, composed to carry the same weight as the
+   photographed cards so it reads as the deliberate close, not
+   an empty card. Text rises in when the card lands. */
+.sweep-card-close .sweep-content {
+  justify-content: center;
+}
+
+.sweep-card-close .eyebrow {
+  color: var(--color-cream);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: var(--space-2);
+}
+
+.sweep-card-close .eyebrow::before {
+  content: '';
+  width: 2.1rem;
+  height: 3px;
+  background: var(--color-amber);
+  flex: none;
+}
+
+.sweep-close-line {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--color-cream);
+  max-width: 24ch;
+  margin-bottom: var(--space-3);
+}
+
+.sweep-close-line strong,
+.sweep-close-line .accent {
+  color: var(--color-amber);
+}
+
+/* Text rises in as the closing card lands. The JS adds
+   .is-landed when this card reaches center. */
+@media (min-width: 48rem) and (hover: hover) {
+  .sweep-card-close .eyebrow,
+  .sweep-close-line,
+  .sweep-card-close .text-link {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .sweep-card-close.is-landed .eyebrow {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.1s;
+  }
+
+  .sweep-card-close.is-landed .sweep-close-line {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.2s;
+  }
+
+  .sweep-card-close.is-landed .text-link {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.35s;
+  }
 }
