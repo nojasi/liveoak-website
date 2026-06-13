@@ -267,67 +267,65 @@
   });
 })();
 
-/* ---------- Roles We Place: the deck ----------
-   Straight cards, stepped stack. Covered cards scale down
-   from their top edge and dim by how deep they're buried,
-   while the side rail fills and the counter advances.
-   Skipped under reduced motion; CSS then lays the cards out
-   as a static stack and hides the rail. */
+/* ---------- Roles We Place: the horizontal sweep ----------
+   Maps vertical scroll through the pinned section to a
+   horizontal translate of the card track, so scrolling down
+   sweeps the cards sideways. Inside each card the photo
+   drifts slower than the type for depth. Desktop pointer
+   only: on touch/narrow the CSS makes the track a native
+   swipe carousel, and under reduced motion it is a vertical
+   stack, so this driver stays off in both cases. */
 
 (function () {
-  var deck = document.querySelector('.role-deck');
-  if (!deck || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var section = document.querySelector('.sweep');
+  var pin = document.querySelector('.sweep-pin');
+  var track = document.querySelector('.sweep-track');
+  if (!section || !pin || !track) {
     return;
   }
 
-  var cards = deck.querySelectorAll('.role-card');
-  var railFill = document.querySelector('.deck-rail-fill');
-  var count = document.querySelector('.deck-count');
-  var total = cards.length;
+  var fine = window.matchMedia('(min-width: 48rem) and (hover: hover)');
+  var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var photos = track.querySelectorAll('.sweep-photo');
+  var pinH = 0;
+  var travel = 0;
+  var active = false;
+
+  /* Give the section enough scroll height for the full sideways
+     travel: one viewport per card feels right. */
+  function measure() {
+    active = fine.matches && motionOk;
+    if (!active) {
+      section.style.height = '';
+      track.style.transform = '';
+      photos.forEach(function (p) { p.style.transform = ''; });
+      return;
+    }
+    travel = Math.max(0, track.scrollWidth - window.innerWidth);
+    section.style.height = (travel + window.innerHeight) + 'px';
+    pinH = window.innerHeight;
+    update();
+  }
 
   function update() {
-    var vh = window.innerHeight;
-
-    /* Landing progress of each card: 0 entering at the bottom,
-       1 settled on its sticky spot. Card 0 starts landed. */
-    var progress = [1];
-    for (var j = 1; j < total; j++) {
-      var landing = vh * 0.11 + j * 12;
-      var top = cards[j].getBoundingClientRect().top;
-      progress.push(Math.max(0, Math.min(1, (vh - top) / (vh - landing))));
+    if (!active) {
+      return;
     }
+    var rect = section.getBoundingClientRect();
+    var scrolled = Math.min(Math.max(-rect.top, 0), travel);
+    track.style.transform = 'translate3d(' + -scrolled + 'px,0,0)';
 
-    /* Each card settles by how deep it is buried: the sum of
-       the landing progress of every card above it. Scaling is
-       from the top edge, so the stack tightens into even steps. */
-    cards.forEach(function (card, i) {
-      var depth = 0;
-      for (var j = i + 1; j < total; j++) {
-        depth += progress[j];
-      }
-      card.style.transform =
-        'scale(' + (1 - depth * 0.035).toFixed(4) + ')';
-      card.style.filter = 'brightness(' + (1 - depth * 0.12).toFixed(3) + ')';
+    /* Parallax: each photo drifts a fraction of the card's own
+       horizontal position within the viewport. */
+    photos.forEach(function (photo) {
+      var cardRect = photo.parentElement.getBoundingClientRect();
+      var fromCenter = (cardRect.left + cardRect.width / 2) - window.innerWidth / 2;
+      photo.style.transform = 'translateX(' + (fromCenter * -0.06).toFixed(1) + 'px)';
     });
-
-    /* Rail fill and counter track the deck as it's worked */
-    var landed = 1;
-    var sum = 0;
-    for (var k = 1; k < total; k++) {
-      sum += progress[k];
-      if (progress[k] > 0.5) {
-        landed = k + 1;
-      }
-    }
-    if (railFill) {
-      railFill.style.transform = 'scaleY(' + (sum / (total - 1)).toFixed(4) + ')';
-    }
-    if (count) {
-      count.textContent = '0' + landed + ' / 0' + total;
-    }
   }
 
   window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  window.addEventListener('resize', measure);
+  fine.addEventListener('change', measure);
+  measure();
 })();
