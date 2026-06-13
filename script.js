@@ -321,32 +321,28 @@
     track.classList.toggle('is-engaged', engaged);
     track.style.transform = 'translate3d(' + -scrolled + 'px,0,0)';
 
-    /* Parallax + active-card detection in one pass */
+    /* Parallax pass (closing card has no photo) */
     var mid = window.innerWidth / 2;
-    var nearest = null;
-    var nearestDist = Infinity;
-    cards.forEach(function (card, i) {
-      var cardRect = card.getBoundingClientRect();
-      var center = cardRect.left + cardRect.width / 2;
-      var fromCenter = center - mid;
-      photos[i].style.transform =
-        'translateX(' + (fromCenter * -0.1).toFixed(1) + 'px)';
-      var dist = Math.abs(fromCenter);
-      if (dist < nearestDist) {
-        nearestDist = dist;
-        nearest = card;
-      }
-    });
     cards.forEach(function (card) {
-      card.classList.toggle('is-active', card === nearest);
+      var photo = card.querySelector('.sweep-photo');
+      if (!photo) {
+        return;
+      }
+      var cardRect = card.getBoundingClientRect();
+      var fromCenter = (cardRect.left + cardRect.width / 2) - mid;
+      photo.style.transform =
+        'translateX(' + (fromCenter * -0.1).toFixed(1) + 'px)';
     });
 
-    /* The closing panel reveals its text once it has essentially
-       reached center (nearest and within a small distance). */
+    /* The closing panel reveals once it is substantially in
+       view. It is the last card and never reaches true center
+       (the track runs out of travel first), so visibility, not
+       centering, drives the reveal. */
     var closeCard = track.querySelector('.sweep-card-close');
     if (closeCard) {
-      var landed = closeCard === nearest && nearestDist < window.innerWidth * 0.18;
-      closeCard.classList.toggle('is-landed', landed);
+      var r = closeCard.getBoundingClientRect();
+      var visible = r.left < window.innerWidth * 0.6 && r.right > 0;
+      closeCard.classList.toggle('is-landed', visible);
     }
 
     /* Hint: show as the section comes into view and the sweep

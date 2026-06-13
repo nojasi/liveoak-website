@@ -1330,7 +1330,6 @@ body.has-custom-cursor button {
 
 .sweep-card {
   position: relative;
-  transition: opacity 0.4s ease, filter 0.4s ease;
   flex: 0 0 auto;
   width: min(78vw, 56rem);
   height: 74vh;
@@ -1341,18 +1340,10 @@ body.has-custom-cursor button {
   box-shadow: 0 30px 80px -20px rgba(17, 17, 17, 0.45);
 }
 
-/* Focusing: a whisper. The centered card is full strength,
-   the others ease back just slightly. Position already does
-   most of the focusing work, so this stays barely-there. */
-@media (min-width: 48rem) and (hover: hover) {
-  .sweep-track.is-engaged .sweep-card {
-    opacity: 0.82;
-  }
-
-  .sweep-track.is-engaged .sweep-card.is-active {
-    opacity: 1;
-  }
-}
+/* No opacity dimming on the sweep: cards are meant to be read
+   in motion, and position plus the peeking edges already do
+   the focusing. Dimming non-centered cards washed the whole
+   row, since only one card is ever centered. */
 
 /* The photo layer. Taller than the card so it has room to
    drift; positioned behind the scrim and content. A photo
