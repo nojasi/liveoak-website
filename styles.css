@@ -1433,6 +1433,11 @@ body.has-custom-cursor button {
   background-image: url('assets/roles-operations.jpg');
 }
 
+/* Growing & Agronomy */
+.sweep-card-growing .sweep-photo {
+  background-image: url('assets/roles-growing.jpg');
+}
+
 /* Roles as a roster: one row each, hairline divided, uniform
    width so every title carries equal weight regardless of
    length. Two columns on the wide cards to use the space. */
