@@ -1341,16 +1341,16 @@ body.has-custom-cursor button {
   box-shadow: 0 30px 80px -20px rgba(17, 17, 17, 0.45);
 }
 
-/* Focusing: only the centered card is full strength */
+/* Focusing: a whisper. The centered card is full strength,
+   the others ease back just slightly. Position already does
+   most of the focusing work, so this stays barely-there. */
 @media (min-width: 48rem) and (hover: hover) {
   .sweep-track.is-engaged .sweep-card {
-    opacity: 0.45;
-    filter: saturate(0.7) brightness(0.85);
+    opacity: 0.82;
   }
 
   .sweep-track.is-engaged .sweep-card.is-active {
     opacity: 1;
-    filter: none;
   }
 }
 
@@ -1359,8 +1359,8 @@ body.has-custom-cursor button {
    drops into each card with one rule (see exec below). */
 .sweep-photo {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -8%;
+  right: -8%;
   top: -8%;
   height: 116%;
   background:

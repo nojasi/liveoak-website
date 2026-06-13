@@ -291,8 +291,6 @@
   var hint = document.querySelector('.sweep-hint');
   var travel = 0;
   var active = false;
-  var moved = false;
-  var snapTimer = null;
 
   function measure() {
     active = fine.matches && motionOk;
@@ -343,52 +341,16 @@
       card.classList.toggle('is-active', card === nearest);
     });
 
-    /* Hint shows while pinned and not yet moved */
+    /* Hint: show as the section comes into view and the sweep
+       has barely begun; hide once the user is into it. */
     if (hint) {
-      hint.classList.toggle('is-shown', engaged && !moved);
+      var entering = rect.top <= window.innerHeight * 0.5 && rect.top >= -40;
+      hint.classList.toggle('is-shown', entering && scrolled < 40);
     }
-  }
-
-  /* Snap softly to the nearest card once scrolling settles.
-     Never fires mid-scroll; only after a pause. */
-  function snap() {
-    if (!active) {
-      return;
-    }
-    var rect = section.getBoundingClientRect();
-    if (rect.top > 0 || rect.bottom < window.innerHeight) {
-      return;
-    }
-    var mid = window.innerWidth / 2;
-    var best = null;
-    var bestDist = Infinity;
-    cards.forEach(function (card) {
-      var cardRect = card.getBoundingClientRect();
-      var d = Math.abs(cardRect.left + cardRect.width / 2 - mid);
-      if (d < bestDist) {
-        bestDist = d;
-        best = card;
-      }
-    });
-    if (!best || bestDist < 6) {
-      return;
-    }
-    /* How far the page must scroll to center that card */
-    var cardRect = best.getBoundingClientRect();
-    var delta = (cardRect.left + cardRect.width / 2) - mid;
-    if (Math.abs(delta) < 2) {
-      return;
-    }
-    window.scrollBy({ top: delta, left: 0, behavior: 'smooth' });
   }
 
   function onScroll() {
-    moved = true;
     update();
-    if (snapTimer) {
-      clearTimeout(snapTimer);
-    }
-    snapTimer = setTimeout(snap, 140);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
