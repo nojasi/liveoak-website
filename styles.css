@@ -159,6 +159,14 @@ h3 {
   background: var(--color-dark-green);
 }
 
+/* On the dark Roles CTA band, the default amber-to-green hover
+   would sink the button into the surface. Keep it legible:
+   lighten the amber and shift text to dark green instead. */
+.roles-cta .button-solid:hover {
+  background: #d4842a;
+  color: var(--color-dark-green);
+}
+
 .button-outline {
   border-color: currentColor;
   color: inherit;
