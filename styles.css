@@ -1330,6 +1330,7 @@ body.has-custom-cursor button {
 
 .sweep-card {
   position: relative;
+  transition: opacity 0.4s ease, filter 0.4s ease;
   flex: 0 0 auto;
   width: min(78vw, 56rem);
   height: 74vh;
@@ -1340,6 +1341,19 @@ body.has-custom-cursor button {
   box-shadow: 0 30px 80px -20px rgba(17, 17, 17, 0.45);
 }
 
+/* Focusing: only the centered card is full strength */
+@media (min-width: 48rem) and (hover: hover) {
+  .sweep-track.is-engaged .sweep-card {
+    opacity: 0.45;
+    filter: saturate(0.7) brightness(0.85);
+  }
+
+  .sweep-track.is-engaged .sweep-card.is-active {
+    opacity: 1;
+    filter: none;
+  }
+}
+
 /* The photo layer. Taller than the card so it has room to
    drift; positioned behind the scrim and content. A photo
    drops into each card with one rule (see exec below). */
@@ -1347,14 +1361,14 @@ body.has-custom-cursor button {
   position: absolute;
   left: 0;
   right: 0;
-  top: -12%;
-  height: 124%;
+  top: -8%;
+  height: 116%;
   background:
     radial-gradient(60rem 40rem at 70% 20%, rgba(66, 104, 70, 0.85), transparent 60%),
     radial-gradient(80rem 60rem at 0% 120%, rgba(20, 38, 24, 0.9), transparent 60%),
     var(--color-dark-green);
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   will-change: transform;
 }
 
@@ -1414,40 +1428,78 @@ body.has-custom-cursor button {
   background-image: url('assets/roles-exec.jpg');
 }
 
-/* Pills: uniform capsules, even grid, equal weight per card */
-.role-pills {
+/* Roles as a roster: one row each, hairline divided, uniform
+   width so every title carries equal weight regardless of
+   length. Two columns on the wide cards to use the space. */
+.role-roster {
   list-style: none;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.625rem;
-  max-width: 40rem;
+  margin: 0;
+  max-width: 44rem;
+  border-top: 1px solid rgba(254, 250, 234, 0.22);
 }
 
 @media (min-width: 48rem) {
-  .role-pills {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .role-roster {
+    columns: 2;
+    column-gap: var(--space-4);
   }
 }
 
-.role-pills li {
+.role-roster li {
   font-family: var(--font-display);
-  font-size: clamp(0.75rem, 1.4vw, 0.9375rem);
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  text-align: center;
-  border: 1.5px solid rgba(254, 250, 234, 0.55);
-  border-radius: 999px;
-  padding: 0.5rem 0.85rem;
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease;
+  letter-spacing: 0.01em;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(254, 250, 234, 0.22);
+  break-inside: avoid;
+  transition: color 0.2s ease, padding-left 0.2s ease;
 }
 
 @media (hover: hover) {
-  .role-pills li:hover {
-    background: var(--color-cream);
-    border-color: var(--color-cream);
+  .role-roster li:hover {
+    color: var(--color-amber);
+    padding-left: 0.4rem;
+  }
+}
+
+
+/* Scroll hint: fades in while the section is pinned, fades
+   out once the user has moved. Desktop pointer only. */
+.sweep-hint {
+  display: none;
+}
+
+@media (min-width: 48rem) and (hover: hover) {
+  .sweep-hint {
+    display: block;
+    position: absolute;
+    bottom: var(--space-3);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--color-dark-green);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .sweep-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 1.4rem;
+    margin: 0.5rem auto 0;
+    background: var(--color-amber);
+  }
+
+  .sweep-hint.is-shown {
+    opacity: 0.7;
   }
 }
 

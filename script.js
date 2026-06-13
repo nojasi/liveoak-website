@@ -286,45 +286,112 @@
 
   var fine = window.matchMedia('(min-width: 48rem) and (hover: hover)');
   var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = track.querySelectorAll('.sweep-card');
   var photos = track.querySelectorAll('.sweep-photo');
-  var pinH = 0;
+  var hint = document.querySelector('.sweep-hint');
   var travel = 0;
   var active = false;
+  var moved = false;
+  var snapTimer = null;
 
-  /* Give the section enough scroll height for the full sideways
-     travel: one viewport per card feels right. */
   function measure() {
     active = fine.matches && motionOk;
     if (!active) {
       section.style.height = '';
       track.style.transform = '';
+      track.classList.remove('is-engaged');
       photos.forEach(function (p) { p.style.transform = ''; });
       return;
     }
     travel = Math.max(0, track.scrollWidth - window.innerWidth);
     section.style.height = (travel + window.innerHeight) + 'px';
-    pinH = window.innerHeight;
     update();
+  }
+
+  function currentScrolled() {
+    var rect = section.getBoundingClientRect();
+    return Math.min(Math.max(-rect.top, 0), travel);
   }
 
   function update() {
     if (!active) {
       return;
     }
+    var scrolled = currentScrolled();
     var rect = section.getBoundingClientRect();
-    var scrolled = Math.min(Math.max(-rect.top, 0), travel);
+    var engaged = rect.top <= 0 && rect.bottom >= window.innerHeight;
+    track.classList.toggle('is-engaged', engaged);
     track.style.transform = 'translate3d(' + -scrolled + 'px,0,0)';
 
-    /* Parallax: each photo drifts a fraction of the card's own
-       horizontal position within the viewport. */
-    photos.forEach(function (photo) {
-      var cardRect = photo.parentElement.getBoundingClientRect();
-      var fromCenter = (cardRect.left + cardRect.width / 2) - window.innerWidth / 2;
-      photo.style.transform = 'translateX(' + (fromCenter * -0.06).toFixed(1) + 'px)';
+    /* Parallax + active-card detection in one pass */
+    var mid = window.innerWidth / 2;
+    var nearest = null;
+    var nearestDist = Infinity;
+    cards.forEach(function (card, i) {
+      var cardRect = card.getBoundingClientRect();
+      var center = cardRect.left + cardRect.width / 2;
+      var fromCenter = center - mid;
+      photos[i].style.transform =
+        'translateX(' + (fromCenter * -0.1).toFixed(1) + 'px)';
+      var dist = Math.abs(fromCenter);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = card;
+      }
     });
+    cards.forEach(function (card) {
+      card.classList.toggle('is-active', card === nearest);
+    });
+
+    /* Hint shows while pinned and not yet moved */
+    if (hint) {
+      hint.classList.toggle('is-shown', engaged && !moved);
+    }
   }
 
-  window.addEventListener('scroll', update, { passive: true });
+  /* Snap softly to the nearest card once scrolling settles.
+     Never fires mid-scroll; only after a pause. */
+  function snap() {
+    if (!active) {
+      return;
+    }
+    var rect = section.getBoundingClientRect();
+    if (rect.top > 0 || rect.bottom < window.innerHeight) {
+      return;
+    }
+    var mid = window.innerWidth / 2;
+    var best = null;
+    var bestDist = Infinity;
+    cards.forEach(function (card) {
+      var cardRect = card.getBoundingClientRect();
+      var d = Math.abs(cardRect.left + cardRect.width / 2 - mid);
+      if (d < bestDist) {
+        bestDist = d;
+        best = card;
+      }
+    });
+    if (!best || bestDist < 6) {
+      return;
+    }
+    /* How far the page must scroll to center that card */
+    var cardRect = best.getBoundingClientRect();
+    var delta = (cardRect.left + cardRect.width / 2) - mid;
+    if (Math.abs(delta) < 2) {
+      return;
+    }
+    window.scrollBy({ top: delta, left: 0, behavior: 'smooth' });
+  }
+
+  function onScroll() {
+    moved = true;
+    update();
+    if (snapTimer) {
+      clearTimeout(snapTimer);
+    }
+    snapTimer = setTimeout(snap, 140);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', measure);
   fine.addEventListener('change', measure);
   measure();
