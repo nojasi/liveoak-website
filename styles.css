@@ -1628,3 +1628,49 @@ body.has-custom-cursor button {
     transition-delay: 0.2s;
   }
 }
+
+/* ---------- Roles We Place: CTA band entry + button pulse ----------
+   Scoped to .roles-cta so the shared CTA band is untouched on
+   other pages. Reuses the site reveal system: the band rides
+   in via reveal-init/is-visible, its three children stagger,
+   and the button pulses amber once on arrival (never loops).
+   The whole reveal system is reduced-motion gated in script.js,
+   so none of this runs for reduced-motion users. */
+
+.roles-cta.reveal-init h2,
+.roles-cta.reveal-init p,
+.roles-cta.reveal-init .button {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.roles-cta.reveal-init.is-visible h2 {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.05s;
+}
+
+.roles-cta.reveal-init.is-visible p {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.18s;
+}
+
+.roles-cta.reveal-init.is-visible .button {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.32s;
+}
+
+/* One deliberate amber pulse on the button as it arrives, then
+   still. Starts after the button has risen in. */
+@keyframes roles-cta-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(189, 110, 24, 0.45); }
+  70% { box-shadow: 0 0 0 14px rgba(189, 110, 24, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(189, 110, 24, 0); }
+}
+
+.roles-cta.reveal-init.is-visible .button {
+  animation: roles-cta-pulse 1.6s ease-out 0.7s 1;
+}
