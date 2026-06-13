@@ -341,7 +341,7 @@
     var closeCard = track.querySelector('.sweep-card-close');
     if (closeCard) {
       var r = closeCard.getBoundingClientRect();
-      var visible = r.left < window.innerWidth * 0.6 && r.right > 0;
+      var visible = r.left < window.innerWidth * 0.85 && r.right > 0;
       closeCard.classList.toggle('is-landed', visible);
     }
 

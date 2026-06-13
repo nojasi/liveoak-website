@@ -1590,22 +1590,6 @@ body.has-custom-cursor button {
   justify-content: center;
 }
 
-.sweep-card-close .eyebrow {
-  color: var(--color-cream);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: var(--space-2);
-}
-
-.sweep-card-close .eyebrow::before {
-  content: '';
-  width: 2.1rem;
-  height: 3px;
-  background: var(--color-amber);
-  flex: none;
-}
-
 .sweep-close-line {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3.5vw, 2.75rem);
@@ -1625,7 +1609,6 @@ body.has-custom-cursor button {
 /* Text rises in as the closing card lands. The JS adds
    .is-landed when this card reaches center. */
 @media (min-width: 48rem) and (hover: hover) {
-  .sweep-card-close .eyebrow,
   .sweep-close-line,
   .sweep-card-close .text-link {
     opacity: 0;
@@ -1633,21 +1616,15 @@ body.has-custom-cursor button {
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
-  .sweep-card-close.is-landed .eyebrow {
-    opacity: 1;
-    transform: none;
-    transition-delay: 0.1s;
-  }
-
   .sweep-card-close.is-landed .sweep-close-line {
     opacity: 1;
     transform: none;
-    transition-delay: 0.2s;
+    transition-delay: 0.05s;
   }
 
   .sweep-card-close.is-landed .text-link {
     opacity: 1;
     transform: none;
-    transition-delay: 0.35s;
+    transition-delay: 0.2s;
   }
 }
