@@ -268,11 +268,11 @@
 })();
 
 /* ---------- Roles We Place: the deck ----------
-   As the next card slides over, the covered card settles:
-   it scales back, tucks up, and dims, keeping its dealt tilt.
-   Progress for card i is how far step i+1 has traveled up the
-   viewport. Skipped under reduced motion; CSS then lays the
-   cards out as a static stack. */
+   Straight cards, stepped stack. Covered cards scale down
+   from their top edge and dim by how deep they're buried,
+   while the side rail fills and the counter advances.
+   Skipped under reduced motion; CSS then lays the cards out
+   as a static stack and hides the rail. */
 
 (function () {
   var deck = document.querySelector('.role-deck');
@@ -281,26 +281,50 @@
   }
 
   var cards = deck.querySelectorAll('.role-card');
-  var tilts = [-1.2, 1, -0.7, 1.3];
+  var railFill = document.querySelector('.deck-rail-fill');
+  var count = document.querySelector('.deck-count');
+  var total = cards.length;
 
   function update() {
     var vh = window.innerHeight;
 
+    /* Landing progress of each card: 0 entering at the bottom,
+       1 settled on its sticky spot. Card 0 starts landed. */
+    var progress = [1];
+    for (var j = 1; j < total; j++) {
+      var landing = vh * 0.11 + j * 12;
+      var top = cards[j].getBoundingClientRect().top;
+      progress.push(Math.max(0, Math.min(1, (vh - top) / (vh - landing))));
+    }
+
+    /* Each card settles by how deep it is buried: the sum of
+       the landing progress of every card above it. Scaling is
+       from the top edge, so the stack tightens into even steps. */
     cards.forEach(function (card, i) {
-      var p = 0;
-      if (i < cards.length - 1) {
-        /* Progress: how far the next card has traveled from the
-           viewport bottom to its sticky landing point */
-        var landing = vh * 0.11 + (i + 1) * 12;
-        var nextTop = cards[i + 1].getBoundingClientRect().top;
-        p = Math.max(0, Math.min(1, (vh - nextTop) / (vh - landing)));
+      var depth = 0;
+      for (var j = i + 1; j < total; j++) {
+        depth += progress[j];
       }
       card.style.transform =
-        'rotate(' + tilts[i % tilts.length] + 'deg)' +
-        ' scale(' + (1 - p * 0.05).toFixed(4) + ')' +
-        ' translateY(' + (-p * 14).toFixed(1) + 'px)';
-      card.style.filter = 'brightness(' + (1 - p * 0.28).toFixed(3) + ')';
+        'scale(' + (1 - depth * 0.035).toFixed(4) + ')';
+      card.style.filter = 'brightness(' + (1 - depth * 0.12).toFixed(3) + ')';
     });
+
+    /* Rail fill and counter track the deck as it's worked */
+    var landed = 1;
+    var sum = 0;
+    for (var k = 1; k < total; k++) {
+      sum += progress[k];
+      if (progress[k] > 0.5) {
+        landed = k + 1;
+      }
+    }
+    if (railFill) {
+      railFill.style.transform = 'scaleY(' + (sum / (total - 1)).toFixed(4) + ')';
+    }
+    if (count) {
+      count.textContent = '0' + landed + ' / 0' + total;
+    }
   }
 
   window.addEventListener('scroll', update, { passive: true });
